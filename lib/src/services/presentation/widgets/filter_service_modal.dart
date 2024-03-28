@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:services_admin/src/common/widgets/app_texts.dart';
+import 'package:services_admin/src/services/data/models/routes_data.dart';
 import 'package:services_admin/src/services/data/models/service_filter.dart';
 import 'package:services_admin/src/utils/extensions/datetime_extension.dart';
 
@@ -207,16 +208,6 @@ class _RouteFilterState extends State<RouteFilter> {
 
   @override
   Widget build(BuildContext context) {
-    final list = [
-      const DropdownMenuItem(
-        value: 'Ruta1',
-        child: Text('Ruta 1'),
-      ),
-      const DropdownMenuItem(
-        value: 'Ruta2',
-        child: Text('Ruta 2'),
-      ),
-    ];
     return CustomInputField(
       title: 'Ruta',
       child: DropdownButtonFormField(
@@ -227,7 +218,7 @@ class _RouteFilterState extends State<RouteFilter> {
           });
           widget.onChanged?.call(value);
         },
-        items: list,
+        items: routesData,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),

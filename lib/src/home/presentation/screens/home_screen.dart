@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:services_admin/src/home/presentation/widgets/home_view.dart';
 import 'package:services_admin/src/services/data/models/service_filter.dart';
 import 'package:services_admin/src/services/data/repository/service_repository.dart';
+import 'package:services_admin/src/services/presentation/screens/service_form_screen.dart';
 import 'package:services_admin/src/services/presentation/widgets/filter_service_modal.dart';
 import 'package:services_admin/src/services/providers/services_overview/services_overview_bloc.dart';
 
@@ -24,6 +25,16 @@ class HomeScreen extends StatelessWidget {
           actions: const [FilterIcon()],
         ),
         body: const HomeView(),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(
+                ServiceFormScreen.routeName,
+                arguments: ServiceFormArguments(toEditData: null),
+              );
+            },
+            child: const Icon(
+              Icons.add,
+            )),
       ),
     );
   }

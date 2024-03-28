@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:services_admin/src/services/data/models/service_model.dart';
+import 'package:services_admin/src/services/presentation/screens/service_form_screen.dart';
 import 'package:services_admin/src/services/presentation/widgets/status_chip.dart';
 import 'package:services_admin/src/utils/extensions/datetime_extension.dart';
 
@@ -18,7 +19,12 @@ class ServiceDetail extends StatelessWidget {
         title: Text(service.id),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(
+                ServiceFormScreen.routeName,
+                arguments: ServiceFormArguments(toEditData: service),
+              );
+            },
             icon: const Icon(
               Icons.edit_rounded,
             ),
