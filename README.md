@@ -1,6 +1,6 @@
 # services_admin
 
-A new Flutter project.
+An admin for services in a transportation app
 
 ## Getting Started
 
