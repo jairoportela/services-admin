@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:services_admin/src/common/widgets/app_texts.dart';
 import 'package:services_admin/src/services/data/models/service_model.dart';
 import 'package:services_admin/src/services/data/repository/service_repository.dart';
 import 'package:services_admin/src/services/presentation/screens/service_detail.dart';
@@ -77,7 +78,7 @@ class _ServiceFormBuilderState extends State<ServiceFormBuilder> {
           previous.submitStatus != current.submitStatus,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(isNewService ? 'Crear servicio' : 'Editar servicio'),
+          title: TitleText(isNewService ? 'Crear servicio' : 'Editar servicio'),
         ),
         body: ServiceFormView(formKey: _formKey),
         bottomNavigationBar: BottomAppBar(

@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
 
-class CustomInputField extends StatelessWidget {
-  const CustomInputField({
-    super.key,
-    required this.title,
-    required this.child,
-    this.isRequired = false,
-  });
-  final String title;
-  final Widget child;
-  final bool isRequired;
+class TitleText extends StatelessWidget {
+  const TitleText(this.text, {super.key});
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 20,
+      ),
+    );
+  }
+}
+
+class ButtonText extends StatelessWidget {
+  const ButtonText(this.text, {super.key});
+  final String text;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '$title ${isRequired ? "*" : ""}',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        const SizedBox(height: 10),
-        child,
-      ],
+    return Text(
+      text,
+      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            color: Colors.white,
+          ),
     );
   }
 }

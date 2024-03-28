@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:services_admin/src/common/widgets/app_texts.dart';
 import 'package:services_admin/src/home/presentation/widgets/home_view.dart';
 import 'package:services_admin/src/services/data/models/service_filter.dart';
 import 'package:services_admin/src/services/data/repository/service_repository.dart';
@@ -21,7 +22,7 @@ class HomeScreen extends StatelessWidget {
         ..add(ServicesOverviewGetAll()),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Servicios'),
+          title: const TitleText('Servicios'),
           actions: const [FilterIcon()],
         ),
         body: const HomeView(),

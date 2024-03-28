@@ -13,4 +13,9 @@ class UserModel {
       name: json['name'],
     );
   }
+
+  static const empty = UserModel(id: '', role: UserRole.client, name: '');
+
+  @override
+  String toString() => 'User(id: $id, role: $role, name: $name)';
 }

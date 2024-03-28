@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:services_admin/src/common/widgets/app_texts.dart';
+import 'package:services_admin/src/common/widgets/input_widgets.dart';
 import 'package:services_admin/src/services/data/models/models.dart';
 import 'package:services_admin/src/services/data/models/routes_data.dart';
 import 'package:services_admin/src/services/providers/service_form/service_form_cubit.dart';
