@@ -139,6 +139,10 @@ class VehicleField extends StatelessWidget {
               onChanged: context.read<ServiceFormCubit>().onChangeVehicleId,
               decoration: const InputDecoration(
                   labelText: 'No hay conductor seleccionado'),
+              validator: (value) {
+                if (value == null) return 'Valor requerido';
+                return null;
+              },
             );
           }
 

@@ -6,14 +6,17 @@ class ServiceFilter extends Equatable {
     this.initialDate,
     this.finalDate,
     this.route,
+    this.driverId,
   });
 
   final String? route;
   final DateTime? initialDate;
   final DateTime? finalDate;
+  final String? driverId;
 
   ServiceFilter copyWith({
     String? Function()? route,
+    String? Function()? driverId,
     DateTime? Function()? initialDate,
     DateTime? Function()? finalDate,
   }) =>
@@ -21,6 +24,7 @@ class ServiceFilter extends Equatable {
         initialDate: initialDate != null ? initialDate() : this.initialDate,
         finalDate: finalDate != null ? finalDate() : this.finalDate,
         route: route != null ? route() : this.route,
+        driverId: driverId != null ? driverId() : this.driverId,
       );
 
   Iterable<ServiceModel> applyAll(
@@ -31,6 +35,7 @@ class ServiceFilter extends Equatable {
           finalDate: finalDate,
           initialDate: initialDate,
           route: route,
+          driverId: driverId,
         ));
   }
 
@@ -39,6 +44,7 @@ class ServiceFilter extends Equatable {
     String? route,
     DateTime? initialDate,
     DateTime? finalDate,
+    String? driverId,
   }) {
     // Verificar si hay filtro de ruta y si no coincide, retornar false
     if (route != null && service.route != route) {
@@ -54,6 +60,10 @@ class ServiceFilter extends Equatable {
     if (finalDate != null && service.serviceHour.isAfter(finalDate)) {
       return false;
     }
+    // Verificar si hay filtro de conductor y si no coincide, retornar false
+    if (driverId != null && service.driverId != driverId) {
+      return false;
+    }
 
     // Si no se encontraron condiciones que hicieran fallar el filtro, retornar true
     return true;
@@ -64,5 +74,6 @@ class ServiceFilter extends Equatable {
         initialDate,
         finalDate,
         route,
+        driverId,
       ];
 }

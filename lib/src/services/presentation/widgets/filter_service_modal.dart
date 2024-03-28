@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:services_admin/src/common/widgets/app_texts.dart';
 import 'package:services_admin/src/services/data/models/routes_data.dart';
 import 'package:services_admin/src/services/data/models/service_filter.dart';
+import 'package:services_admin/src/users/data/repository/user_repository.dart';
 import 'package:services_admin/src/utils/extensions/datetime_extension.dart';
 
 class SearchFilterModal extends StatefulWidget {
@@ -40,6 +41,16 @@ class _SearchFilterModalState extends State<SearchFilterModal> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
+            DriverFilter(
+              initialValue: widget.initialFilters.driverId,
+              onChanged: (value) {
+                setState(() {
+                  _filters = _filters.copyWith(
+                    driverId: () => value,
+                  );
+                });
+              },
+            ),
             const SizedBox(height: 10),
             RouteFilter(
               initialValue: widget.initialFilters.route,
@@ -219,6 +230,67 @@ class _RouteFilterState extends State<RouteFilter> {
           widget.onChanged?.call(value);
         },
         items: routesData,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          suffixIcon: initialValue != null
+              ? IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    setState(() {
+                      initialValue = null;
+                    });
+                    widget.onChanged?.call(null);
+                  },
+                )
+              : null,
+        ),
+      ),
+    );
+  }
+}
+
+class DriverFilter extends StatefulWidget {
+  const DriverFilter(
+      {super.key, required this.initialValue, required this.onChanged});
+  final String? initialValue;
+  final void Function(String? value)? onChanged;
+
+  @override
+  State<DriverFilter> createState() => _DriverFilterState();
+}
+
+class _DriverFilterState extends State<DriverFilter> {
+  String? initialValue;
+
+  @override
+  void initState() {
+    initialValue = widget.initialValue;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomInputField(
+      title: 'Conductor',
+      child: DropdownButtonFormField(
+        value: initialValue,
+        onChanged: (value) {
+          setState(() {
+            initialValue = value;
+          });
+          widget.onChanged?.call(value);
+        },
+        items: UsersRepositoryImplementation()
+            .getDrivers()
+            .map((e) => DropdownMenuItem(
+                  value: e.id,
+                  child: Text(
+                    e.name,
+                  ),
+                ))
+            .toList(),
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
