@@ -1,11 +1,11 @@
 import 'package:services_admin/src/vehicles/data/models/example_data.dart';
 import 'package:services_admin/src/vehicles/data/models/vehicle.dart';
 
-abstract class VehiclesRepository {
+abstract class VehicleRepository {
   List<Vehicle> getVehicles(String driverId);
 }
 
-class VehiclesRepositoryImplementation extends VehiclesRepository {
+class VehicleRepositoryImplementation extends VehicleRepository {
   @override
   List<Vehicle> getVehicles(String driverId) {
     try {

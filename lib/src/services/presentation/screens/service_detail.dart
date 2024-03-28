@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:services_admin/src/common/widgets/app_texts.dart';
 import 'package:services_admin/src/services/data/models/service_model.dart';
 import 'package:services_admin/src/services/presentation/screens/service_form_screen.dart';
 import 'package:services_admin/src/services/presentation/widgets/status_chip.dart';
+import 'package:services_admin/src/users/data/models/user.dart';
+import 'package:services_admin/src/users/data/repository/user_repository.dart';
 import 'package:services_admin/src/utils/extensions/datetime_extension.dart';
+import 'package:services_admin/src/vehicles/data/models/vehicle.dart';
+import 'package:services_admin/src/vehicles/data/repository/vehicles.dart';
 
 class ServiceDetail extends StatelessWidget {
   static const routeName = '/service-detail';
@@ -77,11 +82,25 @@ class ServiceDetailView extends StatelessWidget {
           ),
           DetailItem(
             title: 'Conductor:',
-            value: service.driverId,
+            value: context
+                .read<UserRepository>()
+                .getDrivers()
+                .firstWhere(
+                  (element) => service.driverId == element.id,
+                  orElse: () => UserModel.empty,
+                )
+                .name,
           ),
           DetailItem(
             title: 'Vehiculo:',
-            value: service.vehicleId,
+            value: context
+                .read<VehicleRepository>()
+                .getVehicles(service.driverId)
+                .firstWhere(
+                  (element) => service.vehicleId == element.id,
+                  orElse: () => Vehicle.empty,
+                )
+                .plate,
           ),
         ],
       ),

@@ -97,7 +97,8 @@ class DriverField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final value = context.read<ServiceFormCubit>().state.driverId;
-    final listItems = UsersRepositoryImplementation()
+    final listItems = context
+        .read<UserRepository>()
         .getDrivers()
         .map((e) => DropdownMenuItem(
               value: e.id,
@@ -146,7 +147,8 @@ class VehicleField extends StatelessWidget {
             );
           }
 
-          final listItems = VehiclesRepositoryImplementation()
+          final listItems = context
+              .read<VehicleRepository>()
               .getVehicles(driverId)
               .map((e) => DropdownMenuItem(
                     value: e.id,

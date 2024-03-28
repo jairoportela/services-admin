@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:services_admin/src/common/widgets/input_widgets.dart';
 import 'package:services_admin/src/services/data/models/routes_data.dart';
 import 'package:services_admin/src/services/data/models/service_filter.dart';
@@ -282,7 +283,8 @@ class _DriverFilterState extends State<DriverFilter> {
           });
           widget.onChanged?.call(value);
         },
-        items: UsersRepositoryImplementation()
+        items: context
+            .read<UserRepository>()
             .getDrivers()
             .map((e) => DropdownMenuItem(
                   value: e.id,

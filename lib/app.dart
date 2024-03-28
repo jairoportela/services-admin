@@ -10,6 +10,8 @@ import 'package:services_admin/src/home/presentation/screens/not_auth_screen.dar
 import 'package:services_admin/src/services/data/repository/service_repository.dart';
 import 'package:services_admin/src/theme/theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:services_admin/src/users/data/repository/user_repository.dart';
+import 'package:services_admin/src/vehicles/data/repository/vehicles.dart';
 
 class ServicesApp extends StatelessWidget {
   const ServicesApp({super.key, required this.authenticationRepository});
@@ -17,11 +19,21 @@ class ServicesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ServiceRepository repo = ServiceRepositoryImplementation();
+    final ServiceRepository serviceRepository =
+        ServiceRepositoryImplementation();
+    final UserRepository userRepository = UserRepositoryImplementation();
+    final VehicleRepository vehicleRepository =
+        VehicleRepositoryImplementation();
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider.value(
-          value: repo,
+        RepositoryProvider(
+          create: (ctx) => serviceRepository,
+        ),
+        RepositoryProvider(
+          create: (ctx) => userRepository,
+        ),
+        RepositoryProvider(
+          create: (ctx) => vehicleRepository,
         ),
         RepositoryProvider.value(
           value: authenticationRepository,
