@@ -27,10 +27,10 @@ enum ServiceStatus {
 
 ServiceStatus getServicesStatusByKey(String? key) {
   return DecoderEnum.getData<String?, ServiceStatus>(key,
-      decoder: _categoriesMap, defaultValue: ServiceStatus.inactive);
+      decoder: _servicesStatusMap, defaultValue: ServiceStatus.inactive);
 }
 
-Map<String, ServiceStatus> _categoriesMap = {
+Map<String, ServiceStatus> _servicesStatusMap = {
   'Activo': ServiceStatus.active,
   'Inactivo': ServiceStatus.inactive,
   'Terminado': ServiceStatus.finished,

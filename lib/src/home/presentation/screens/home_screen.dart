@@ -14,8 +14,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ServicesOverviewBloc(
-        ServiceRepositoryImplementation(),
+      create: (ctx) => ServicesOverviewBloc(
+        RepositoryProvider.of<ServiceRepository>(context),
       )
         ..add(ServicesOverviewSubscriptionRequested())
         ..add(ServicesOverviewGetAll()),

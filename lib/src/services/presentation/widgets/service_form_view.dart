@@ -5,41 +5,51 @@ import 'package:services_admin/src/common/widgets/app_texts.dart';
 import 'package:services_admin/src/services/data/models/models.dart';
 import 'package:services_admin/src/services/data/models/routes_data.dart';
 import 'package:services_admin/src/services/providers/service_form/service_form_cubit.dart';
+import 'package:services_admin/src/users/data/repository/user_repository.dart';
 import 'package:services_admin/src/utils/extensions/datetime_extension.dart';
+import 'package:services_admin/src/vehicles/data/repository/vehicles.dart';
 
-class ServiceFormView extends StatefulWidget {
-  const ServiceFormView({super.key});
-
-  @override
-  State<ServiceFormView> createState() => _ServiceFormViewState();
-}
-
-class _ServiceFormViewState extends State<ServiceFormView> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+class ServiceFormView extends StatelessWidget {
+  const ServiceFormView({
+    super.key,
+    required this.formKey,
+  });
+  final GlobalKey<FormState> formKey;
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
-      child: const SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+      key: formKey,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        child: Column(
-          children: [
-            StatusField(),
-            _SeparatorHeight(),
-            ServiceDateField(),
-            _SeparatorHeight(),
-            ServiceHourField(),
-            _SeparatorHeight(),
-            SeatsField(),
-            _SeparatorHeight(),
-            RouteField(),
-            _SeparatorHeight(),
-            DriverField(),
-            _SeparatorHeight(),
-            VehicleField(),
-          ],
+        child: BlocSelector<ServiceFormCubit, ServiceFormState, bool>(
+          selector: (state) {
+            return state.isNewService;
+          },
+          builder: (context, isNewService) {
+            return Column(
+              children: [
+                const StatusField(),
+                const _SeparatorHeight(),
+                const ServiceDateField(),
+                const _SeparatorHeight(),
+                const ServiceHourField(),
+                const _SeparatorHeight(),
+                const DriverField(),
+                const _SeparatorHeight(),
+                const VehicleField(),
+                const _SeparatorHeight(),
+                SeatsField(
+                  isNewService: isNewService,
+                ),
+                const _SeparatorHeight(),
+                RouteField(
+                  isNewService: isNewService,
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -72,6 +82,10 @@ class StatusField extends StatelessWidget {
                 ))
             .toList(),
         onChanged: context.read<ServiceFormCubit>().onChangeStatus,
+        validator: (value) {
+          if (value == null) return 'Valor requerido';
+          return null;
+        },
       ),
     );
   }
@@ -82,10 +96,26 @@ class DriverField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CustomInputField(
+    final value = context.read<ServiceFormCubit>().state.driverId;
+    final listItems = UsersRepositoryImplementation()
+        .getDrivers()
+        .map((e) => DropdownMenuItem(
+              value: e.id,
+              child: Text(e.name),
+            ))
+        .toList();
+    return CustomInputField(
       title: 'Conductor',
       isRequired: true,
-      child: Placeholder(),
+      child: DropdownButtonFormField<String>(
+        value: value,
+        items: listItems,
+        onChanged: context.read<ServiceFormCubit>().onChangeDriverId,
+        validator: (value) {
+          if (value == null) return 'Valor requerido';
+          return null;
+        },
+      ),
     );
   }
 }
@@ -95,16 +125,55 @@ class VehicleField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CustomInputField(
+    return CustomInputField(
       title: 'Vehiculo',
       isRequired: true,
-      child: Placeholder(),
+      child: BlocSelector<ServiceFormCubit, ServiceFormState, String?>(
+        selector: (state) {
+          return state.driverId;
+        },
+        builder: (context, driverId) {
+          if (driverId == null) {
+            return DropdownButtonFormField<String>(
+              items: const [],
+              onChanged: context.read<ServiceFormCubit>().onChangeVehicleId,
+              decoration: const InputDecoration(
+                  labelText: 'No hay conductor seleccionado'),
+            );
+          }
+
+          final listItems = VehiclesRepositoryImplementation()
+              .getVehicles(driverId)
+              .map((e) => DropdownMenuItem(
+                    value: e.id,
+                    child: Text(e.plate),
+                  ))
+              .toList();
+          return BlocSelector<ServiceFormCubit, ServiceFormState, String?>(
+            selector: (state) {
+              return state.vehicleId;
+            },
+            builder: (context, value) {
+              return DropdownButtonFormField<String>(
+                value: value,
+                items: listItems,
+                onChanged: context.read<ServiceFormCubit>().onChangeVehicleId,
+                validator: (value) {
+                  if (value == null) return 'Valor requerido';
+                  return null;
+                },
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
 
 class RouteField extends StatelessWidget {
-  const RouteField({super.key});
+  const RouteField({super.key, required this.isNewService});
+  final bool isNewService;
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +183,16 @@ class RouteField extends StatelessWidget {
       child: DropdownButtonFormField<String>(
         value: context.read<ServiceFormCubit>().state.route,
         items: routesData,
-        onChanged: context.read<ServiceFormCubit>().onChangeRoute,
+        onChanged: isNewService
+            ? context.read<ServiceFormCubit>().onChangeRoute
+            : null,
+        decoration: InputDecoration(
+          enabled: isNewService,
+        ),
+        validator: (value) {
+          if (value == null) return 'Valor requerido';
+          return null;
+        },
       ),
     );
   }
@@ -160,6 +238,10 @@ class _ServiceDateFieldState extends State<ServiceDateField> {
             setControllerText(value);
             context.read<ServiceFormCubit>().onChangeDate(value);
           });
+        },
+        validator: (value) {
+          if (value == null || value.isEmpty) return 'Valor requerido';
+          return null;
         },
       ),
     );
@@ -216,6 +298,10 @@ class _ServiceHourFieldState extends State<ServiceHourField> {
             context.read<ServiceFormCubit>().onChangeHour(value);
           });
         },
+        validator: (value) {
+          if (value == null || value.isEmpty) return 'Valor requerido';
+          return null;
+        },
       ),
     );
   }
@@ -228,15 +314,17 @@ class _ServiceHourFieldState extends State<ServiceHourField> {
 }
 
 class SeatsField extends StatelessWidget {
-  const SeatsField({super.key});
-
+  const SeatsField({super.key, required this.isNewService});
+  final bool isNewService;
   @override
   Widget build(BuildContext context) {
     return CustomInputField(
       title: 'Cupos',
       isRequired: true,
       child: TextFormField(
-        initialValue: context.read<ServiceFormCubit>().state.seats.toString(),
+        readOnly: !isNewService,
+        initialValue:
+            (context.read<ServiceFormCubit>().state.seats ?? '').toString(),
         keyboardType: const TextInputType.numberWithOptions(),
         onChanged: context.read<ServiceFormCubit>().onChangeSeats,
         inputFormatters: [
@@ -246,6 +334,9 @@ class SeatsField extends StatelessWidget {
           if (value == null || value.isEmpty) return 'Valor requirido';
           return null;
         },
+        decoration: InputDecoration(
+          enabled: isNewService,
+        ),
       ),
     );
   }
