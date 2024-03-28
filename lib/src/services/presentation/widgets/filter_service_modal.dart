@@ -57,8 +57,8 @@ class _SearchFilterModalState extends State<SearchFilterModal> {
               onChange: (range) {
                 setState(() {
                   _filters = _filters.copyWith(
-                    initialDate: () => range.start,
-                    finalDate: () => range.end,
+                    initialDate: () => range?.start,
+                    finalDate: () => range?.end,
                   );
                 });
               },
@@ -110,7 +110,7 @@ class DateRangeFilter extends StatefulWidget {
   });
   final DateTime? start;
   final DateTime? end;
-  final Function(DateTimeRange range) onChange;
+  final Function(DateTimeRange? range) onChange;
 
   @override
   State<DateRangeFilter> createState() => _DateRangeFilterState();
@@ -121,7 +121,7 @@ class _DateRangeFilterState extends State<DateRangeFilter> {
   DateTimeRange? _range;
 
   String getText(DateTimeRange range) {
-    return 'Desde: ${range.start.toDate()}, Hasta: ${range.end.toDate()}';
+    return '${range.start.toDate()} <-> ${range.end.toDate()}';
   }
 
   Future<void> _selectDateRange() async {
@@ -162,6 +162,20 @@ class _DateRangeFilterState extends State<DateRangeFilter> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
+          suffixIcon: _range != null
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _range = null;
+                      _textController.text = '';
+                    });
+                    widget.onChange(null);
+                  },
+                  icon: const Icon(
+                    Icons.close,
+                  ),
+                )
+              : null,
         ),
       ),
     );
