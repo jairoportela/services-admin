@@ -9,7 +9,7 @@ class ServiceModel extends Equatable {
   final ServiceStatus status;
   final String route;
   final String driverId;
-  final String userId;
+  final String vehicleId;
 
   const ServiceModel({
     required this.id,
@@ -19,7 +19,7 @@ class ServiceModel extends Equatable {
     required this.status,
     required this.route,
     required this.driverId,
-    required this.userId,
+    required this.vehicleId,
   });
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) {
@@ -31,7 +31,7 @@ class ServiceModel extends Equatable {
       status: getServicesStatusByKey(json['estado']),
       route: json['ruta'],
       driverId: json['conductorRef'],
-      userId: json['vehiculoRef'],
+      vehicleId: json['vehiculoRef'],
     );
   }
 
@@ -44,6 +44,6 @@ class ServiceModel extends Equatable {
         status,
         route,
         driverId,
-        userId,
+        vehicleId,
       ];
 }
