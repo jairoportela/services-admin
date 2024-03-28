@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:services_admin/src/home/presentation/screens/home_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -6,6 +7,10 @@ class RouteGenerator {
       case '/':
         return MaterialPageRoute<void>(
           builder: (_) => const LoadingScreen(),
+        );
+      case HomeScreen.routeName:
+        return MaterialPageRoute<void>(
+          builder: (_) => const HomeScreen(),
         );
 
       default:
