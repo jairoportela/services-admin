@@ -89,6 +89,10 @@ _Libraries used in the project_
 - [rxdart](https://pub.dev/packages/rxdart): For expand the use of streams in the app
 - [intl](https://pub.dev/packages/intl): For format dates and numbers
 
+
+
+
+
 ## Authors ✒️
 
 - **Jairo Andrés Portela Cortés**
@@ -96,3 +100,5 @@ _Libraries used in the project_
 ## Notes  
 
 In the file lib/src/authentication/data/repository/authentication_repository.dart there is a TODO for test the roles in authentication
+
+https://github.com/jairoportela/services_admin/assets/84533859/862aaf54-6be8-4d92-88e4-448f19da07bd
