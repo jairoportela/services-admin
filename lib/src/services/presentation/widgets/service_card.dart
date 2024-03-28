@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:services_admin/src/services/data/models/models.dart';
+import 'package:services_admin/src/services/presentation/screens/service_detail.dart';
 import 'package:services_admin/src/services/presentation/widgets/status_chip.dart';
 import 'package:services_admin/src/utils/extensions/datetime_extension.dart';
 
@@ -19,7 +20,13 @@ class ServiceCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         elevation: 2,
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(
+          context,
+          ServiceDetail.routeName,
+          arguments: service,
+        );
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

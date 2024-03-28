@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:services_admin/src/home/presentation/screens/home_screen.dart';
+import 'package:services_admin/src/services/data/models/service_model.dart';
+import 'package:services_admin/src/services/presentation/screens/service_detail.dart';
+import 'package:services_admin/src/services/presentation/screens/service_form_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -11,6 +14,20 @@ class RouteGenerator {
       case HomeScreen.routeName:
         return MaterialPageRoute<void>(
           builder: (_) => const HomeScreen(),
+        );
+      case ServiceDetail.routeName:
+        final data = settings.arguments as ServiceModel;
+        return MaterialPageRoute<void>(
+          builder: (_) => ServiceDetail(
+            service: data,
+          ),
+        );
+      case ServiceFormScreen.routeName:
+        final data = settings.arguments as ServiceFormArguments;
+        return MaterialPageRoute<void>(
+          builder: (_) => ServiceFormScreen(
+            arguments: data,
+          ),
         );
 
       default:
