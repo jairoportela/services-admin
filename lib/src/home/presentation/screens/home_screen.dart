@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:services_admin/src/home/presentation/widgets/home_view.dart';
-import 'package:services_admin/src/services/data/models/models.dart';
 import 'package:services_admin/src/services/data/models/service_filter.dart';
 import 'package:services_admin/src/services/data/repository/service_repository.dart';
 import 'package:services_admin/src/services/presentation/widgets/filter_service_modal.dart';
