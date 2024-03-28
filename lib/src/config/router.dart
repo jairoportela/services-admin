@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:services_admin/src/home/presentation/screens/home_screen.dart';
+import 'package:services_admin/src/home/presentation/screens/not_auth_screen.dart';
 import 'package:services_admin/src/services/data/models/service_model.dart';
 import 'package:services_admin/src/services/presentation/screens/service_detail.dart';
 import 'package:services_admin/src/services/presentation/screens/service_form_screen.dart';
@@ -28,6 +29,10 @@ class RouteGenerator {
           builder: (_) => ServiceFormScreen(
             arguments: data,
           ),
+        );
+      case NotAuthScreen.routeName:
+        return MaterialPageRoute<void>(
+          builder: (_) => const NotAuthScreen(),
         );
 
       default:

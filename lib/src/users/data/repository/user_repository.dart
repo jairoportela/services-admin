@@ -1,11 +1,11 @@
 import 'package:services_admin/src/users/data/models/example_data.dart';
 import 'package:services_admin/src/users/data/models/user.dart';
 
-abstract class UsersRepository {
+abstract class UserRepository {
   List<UserModel> getDrivers();
 }
 
-class UsersRepositoryImplementation extends UsersRepository {
+class UserRepositoryImplementation extends UserRepository {
   @override
   List<UserModel> getDrivers() {
     try {

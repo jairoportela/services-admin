@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:services_admin/src/common/widgets/app_texts.dart';
 import 'package:services_admin/src/services/providers/service_form/service_form_cubit.dart';
 
 class ServiceSubmitButton extends StatelessWidget {
@@ -35,7 +36,7 @@ class ServiceSubmitButton extends StatelessWidget {
               context.read<ServiceFormCubit>().onSubmit();
             }
           },
-          child: Text(
+          child: ButtonText(
             isNewService ? 'Crear' : 'Editar',
           ),
         );

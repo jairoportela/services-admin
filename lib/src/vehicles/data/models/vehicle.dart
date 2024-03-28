@@ -16,4 +16,6 @@ class Vehicle {
       plate: json['plate'] ?? '',
     );
   }
+
+  static const empty = Vehicle(driverId: '', id: '', plate: '');
 }
