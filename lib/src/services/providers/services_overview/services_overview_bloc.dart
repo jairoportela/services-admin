@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:services_admin/src/services/data/models/service_filter.dart';
 import 'package:services_admin/src/services/data/models/service_model.dart';
 import 'package:services_admin/src/services/data/repository/service_repository.dart';
 
@@ -14,6 +15,7 @@ class ServicesOverviewBloc
       : super(const ServicesOverviewState()) {
     on<ServicesOverviewSubscriptionRequested>(_onSubscriptionRequested);
     on<ServicesOverviewGetAll>(_onGetItems);
+    on<ServicesOverviewFilter>(_onFilter);
   }
 
   void _onSubscriptionRequested(
@@ -45,6 +47,15 @@ class ServicesOverviewBloc
   ) async {
     emit(state.copyWith(status: Status.loading, error: () => null));
     await _repository.getAll();
+  }
+
+  Future<void> _onFilter(
+    ServicesOverviewFilter event,
+    _Emitter emit,
+  ) async {
+    emit(state.copyWith(
+      filter: event.filter,
+    ));
   }
 
   final ServiceRepository _repository;

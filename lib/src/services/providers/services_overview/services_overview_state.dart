@@ -12,20 +12,26 @@ class ServicesOverviewState extends Equatable {
     this.status = Status.initial,
     this.services = const [],
     this.error,
+    this.filter = const ServiceFilter(),
   });
   final Status status;
   final List<ServiceModel> services;
   final String? error;
+  final ServiceFilter filter;
+
+  Iterable<ServiceModel> get filteredServices => filter.applyAll(services);
 
   ServicesOverviewState copyWith({
     Status? status,
     List<ServiceModel>? services,
     String? Function()? error,
+    ServiceFilter? filter,
   }) {
     return ServicesOverviewState(
       status: status ?? this.status,
       services: services ?? this.services,
       error: error != null ? error() : this.error,
+      filter: filter ?? this.filter,
     );
   }
 
@@ -34,5 +40,6 @@ class ServicesOverviewState extends Equatable {
         status,
         services,
         error,
+        filter,
       ];
 }

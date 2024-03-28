@@ -21,11 +21,11 @@ class HomeView extends StatelessWidget {
                 vertical: 20,
               ),
               itemBuilder: (context, index) {
-                final data = state.services.elementAt(index);
+                final data = state.filteredServices.elementAt(index);
                 return ServiceCard(service: data);
               },
               separatorBuilder: (context, index) => const SizedBox(height: 20),
-              itemCount: state.services.length,
+              itemCount: state.filteredServices.length,
             ),
           Status.error => Text(state.error ?? ''),
         };

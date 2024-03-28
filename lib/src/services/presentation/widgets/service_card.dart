@@ -38,7 +38,7 @@ class ServiceCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Hora del Servicio: ${service.serviceHour.hhmm()}',
+            'Hora del Servicio: ${service.serviceHour.completeDate()}',
             style: const TextStyle(fontSize: 14),
           ),
           const SizedBox(height: 4),

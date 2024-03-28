@@ -10,3 +10,10 @@ sealed class ServicesOverviewEvent extends Equatable {
 class ServicesOverviewSubscriptionRequested extends ServicesOverviewEvent {}
 
 class ServicesOverviewGetAll extends ServicesOverviewEvent {}
+
+class ServicesOverviewFilter extends ServicesOverviewEvent {
+  const ServicesOverviewFilter({
+    required this.filter,
+  });
+  final ServiceFilter filter;
+}
