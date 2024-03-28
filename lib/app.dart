@@ -47,16 +47,7 @@ class _AppViewState extends State<AppView> {
         Locale('es', 'CO'),
         Locale('es', 'MX'),
       ],
-      builder: (context, child) {
-        Future.delayed(const Duration(seconds: 1)).then((value) {
-          _navigator.pushNamedAndRemoveUntil<void>(
-            HomeScreen.routeName,
-            (route) => false,
-          );
-        });
-
-        return child ?? const SizedBox();
-      },
+      initialRoute: HomeScreen.routeName,
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

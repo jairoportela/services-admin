@@ -158,14 +158,32 @@ class VehicleField extends StatelessWidget {
               return state.vehicleId;
             },
             builder: (context, value) {
-              return DropdownButtonFormField<String>(
-                value: value,
-                items: listItems,
-                onChanged: context.read<ServiceFormCubit>().onChangeVehicleId,
-                validator: (value) {
-                  if (value == null) return 'Valor requerido';
-                  return null;
-                },
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  DropdownButtonFormField<String>(
+                    value: value,
+                    items: listItems,
+                    onChanged:
+                        context.read<ServiceFormCubit>().onChangeVehicleId,
+                    validator: (value) {
+                      if (value == null) return 'Valor requerido';
+                      return null;
+                    },
+                  ),
+                  const _SeparatorHeight(),
+                  OutlinedButton(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(
+                            const SnackBar(
+                              content: Text('No implementado.'),
+                            ),
+                          );
+                      },
+                      child: const Text('Agregar vehiculo'))
+                ],
               );
             },
           );
@@ -238,6 +256,7 @@ class _ServiceDateFieldState extends State<ServiceDateField> {
             context: context,
             firstDate: DateTime(2024),
             lastDate: DateTime(2026),
+            initialDate: context.read<ServiceFormCubit>().state.serviceDate,
           ).then((value) {
             setControllerText(value);
             context.read<ServiceFormCubit>().onChangeDate(value);
@@ -293,10 +312,11 @@ class _ServiceHourFieldState extends State<ServiceHourField> {
           final dateTime = DateTime.now();
           showTimePicker(
             context: context,
-            initialTime: TimeOfDay(
-              hour: dateTime.hour,
-              minute: dateTime.minute,
-            ),
+            initialTime: context.read<ServiceFormCubit>().state.serviceHour ??
+                TimeOfDay(
+                  hour: dateTime.hour,
+                  minute: dateTime.minute,
+                ),
           ).then((value) {
             setControllerText(value);
             context.read<ServiceFormCubit>().onChangeHour(value);
